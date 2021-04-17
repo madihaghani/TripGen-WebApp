@@ -1,0 +1,9 @@
+{% extends 'template.html' %}
+
+<!-- TITLE HERE -->
+{% block title %}Page Not Found{% endblock %}
+
+<!-- CONTENT HERE -->
+{% block content %}
+<img class="error_images" src="{{url_for('static', filename='images/500_server_error.gif')}}" />
+{% endblock content %}

@@ -1,0 +1,56 @@
+{% extends 'template.html' %}
+{% block title %}All Trips | My Trip Planner App | Class Project{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <h1 class="d-flex justify-content-center center">Add a New Trip!</h1>
+    {% if msg %}
+    {% if msg_type.lower() == 'warn' %}
+    {% set class = 'alert alert-danger' %}
+    {% elif msg_type.lower() == 'success' %}
+    {% set class = 'alert alert-success' %}
+    {% endif %}
+    <div class="{{ class }}" style="width: 50%; margin-left: auto; margin-right: auto;">
+        {{ msg }}
+    </div>
+    {% endif %}
+    <div class="d-flex justify-content-center">
+        <form class="center" method="post">
+            <label for="inputTrip1" class="sr-only">Enter a new trip (starting point, ending point)</label>
+            <input type="text" name="add-trip" class="form-control" id="inputTrip1" placeholder="e.g. New York NY, Boston MA">
+            <button type="submit" class="btn btn-primary mb-2" onclick="displayLoader()">Add Trip</button>
+        </form>
+    </div>
+
+    <h1 class="d-flex justify-content-left">My Current Trips</h1>
+    <table class="table">
+        <thead class="table-dark">
+            <tr>
+                <th>Trip ID</th>
+                <th>Source</th>
+                <th>Destination</th>
+                <th>Manage</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for trip in trips %}
+            <tr>
+                <td>{{ trip['details']['id'] }}</td>
+                <td>{{ trip['details']['src'] }}</td>
+                <td>{{ trip['details']['dst'] }}</td>
+                <td>
+                    <a href="{{ url_for('trip_details', id=trip['details']['id']) }}">
+                            <button type="submit" class="btn btn-primary mb-2" id="modify-button" >Modify</button>
+                    </a>
+                    <a href="{{ url_for('trip_delete', id=trip['details']['id']) }}">
+                        <button type="submit" class="btn btn-primary mb-2" id="delete-button" >Delete</button>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}

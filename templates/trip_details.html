@@ -1,0 +1,64 @@
+{% extends 'template.html' %}
+{% block title %}Trip Details | My Trip Planner App | Class Project{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6 col-md-4">
+            <div style="width:100%">
+                <img class="weather-img" src="{{ details['weatherIcon'] }}">
+            </div>
+            <h1 class="d-flex justify-content-left">Trip Summary</h1>
+            <ul class="list-group">
+                <li class="list-group-item">Source: {{ details['src'] }}</li>
+                <li class="list-group-item">Destination: {{ details['dst'] }}</li>
+                <li class="list-group-item">Total Distance: {{ details['totalDist'] }} miles</li>
+                <li class="list-group-item">Total Time: {{ details['totalTime'] }}</li>
+                <li class="list-group-item">Weather at Destination: {{ details['dstWeather'] }}&#8457;</li>
+            </ul>
+        </div>
+        <div class="col-12 col-md-8">
+            <h1 class="d-flex justify-content-left">Trip Detail</h1>
+            <div class="add_stop_form">
+                <form class="center" method="post">
+                    <label for="inputStop" class="sr-only">Enter a stop on your trip</label>
+                    <input type="text" name="add-stop" class="form-control" id="inputStop" placeholder="e.g. New York NY">
+                    <button type="submit" class="btn btn-primary mb-2">Add Stop</button>
+                </form>
+
+                {% if msg %}
+                {% if msg_type.lower() == 'success' %}
+                <div class="alert alert-success" style="width: 50%; margin-left: auto; margin-right: auto;">
+                    {{ msg }}
+                </div>
+                {% endif %}
+                {% endif %}
+            </div>
+            <table class="table">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Trip #</th>
+                        <th>Origin</th>
+                        <th>End</th>
+                        <th>Distance (miles)</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for stop in stops %}
+                    <tr>
+                        <td>{{ stop['id'] }}</td>
+                        <td>{{ stop['start'] }}</td>
+                        <td>{{ stop['end'] }}</td>
+                        <td>{{ stop['dist'] }}</td>
+                        <td>{{ stop['time'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

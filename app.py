@@ -6,7 +6,7 @@ from models.Trip import Trip
 infile = open('./data/trips_new.dat', 'rb')
 trips = pickle.load(infile)
 _all_trips = [trip.__dict__ for trip in trips]
-print(_all_trips)
+
 
 def _get_all_stops(stops):
     _all_stops = list()
@@ -47,13 +47,16 @@ def index():
 @app.route('/trip/<int:id>', methods=['POST','GET'])
 def trip_details(id):
     trip = None
-    for trip in _all_trips:
+    for i, trip in enumerate(_all_trips):
         if trip['id'] == id:
             stops = _get_all_stops(trip['details']['stops'])
             if request.method == 'POST':
                 new_stop = request.form['add-stop']
                 stops = Trip(*stops) + new_stop
                 trip = stops.details
+                trip['id'] = id
+                trip['details']['id'] = id
+                _all_trips[i] = trip
                 msg = 'Stop added successfully!'
                 msg_type = 'success'
                 return render_template('trip_details.html', details=trip['details'], stops=trip['details']['stops'],
